@@ -45,6 +45,7 @@ const unsigned int totalNum = 20 * 1e6;
 	double minISPC = 1e30;
 	float* values = new float[totalNum];
 	float* result = new float[totalNum];
+	const int nbThreads  = atoi(argv[1]);
 	// generate N float num;
 	for(int i = 0; i < totalNum; i++){
 		values[i] = randomNum(8);
@@ -55,7 +56,7 @@ const unsigned int totalNum = 20 * 1e6;
 
 	for(unsigned int i = 0; i < 3; i++){
 		reset_and_start_timer();
-		calRoot_ispc(totalNum, values, result, firstGuess);
+		calRoot_ispc(totalNum, values, result, firstGuess,nbThreads);
 		double dt = get_elapsed_mcycles();
     		printf("@time of ISPC run:\t\t\t[%.3f] million cycles\n", dt);
 	        minISPC = std::min(minISPC, dt); 

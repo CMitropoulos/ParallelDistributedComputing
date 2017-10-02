@@ -35,7 +35,7 @@ namespace ispc { /* namespace */
 #if defined(__cplusplus) && (! defined(__ISPC_NO_EXTERN_C) || !__ISPC_NO_EXTERN_C )
 extern "C" {
 #endif // __cplusplus
-    extern void calRoot_ispc(double times, float * values, float * result, float firstGuess);
+    extern void calRoot_ispc(double times, float * values, float * result, float firstGuess, int32_t nbThreads);
 #if defined(__cplusplus) && (! defined(__ISPC_NO_EXTERN_C) || !__ISPC_NO_EXTERN_C )
 } /* end extern C */
 #endif // __cplusplus

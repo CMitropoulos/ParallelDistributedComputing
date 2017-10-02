@@ -28,10 +28,11 @@ calRoot_launched(uniform double times,
 export void calRoot_ispc(uniform double times,
                          uniform float values[],
                          uniform float result[],
-                         uniform float firstGuess){
+                         uniform float firstGuess,
+			 uniform int nbThreads){
 
    	
-   uniform int span = (20e6)/8;
+   uniform int span = (20e6)/nbThreads;
 
    launch[times/span] calRoot_launched(times, values, result,firstGuess,span);
 }
