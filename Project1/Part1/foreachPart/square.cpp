@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <cmath>
 #include "square_ispc.h"
-
+#include <stdlib.h>
 #include "timing.h"
 
 using namespace std;
