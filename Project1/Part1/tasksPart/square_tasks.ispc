@@ -30,7 +30,8 @@ export void calRoot_ispc(uniform double times,
                          uniform float result[],
                          uniform float firstGuess){
 
-   uniform int span = 100;
+   	
+   uniform int span = (20e6)/8;
 
    launch[times/span] calRoot_launched(times, values, result,firstGuess,span);
 }
