@@ -118,4 +118,3 @@ objs/$(ISPC_SRC:.ispc=)_scalar.o: $(ISPC_SRC)
 
 $(EXAMPLE)-scalar: $(CPP_OBJS) objs/$(ISPC_SRC:.ispc=)_scalar.o
 	$(CXX) $(CXXFLAGS) -o $@ $^ $(LIBS)
-

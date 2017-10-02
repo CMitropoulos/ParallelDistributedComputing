@@ -1437,4 +1437,3 @@ void *ISPCAlloc(void **taskGroupPtr, int64_t size, int32_t alignment)
 }
 
 #endif // ISPC_USE_PTHREADS_FULLY_SUBSCRIBED
-
