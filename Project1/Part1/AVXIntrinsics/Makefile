@@ -1,2 +1,2 @@
-square_avx: square_avx.c
-	gcc -std=c99 -mavx -o square_avx square_avx.c
+square_avx: square_avx.cpp
+	gcc  -mavx -o square_avx square_avx.cpp
