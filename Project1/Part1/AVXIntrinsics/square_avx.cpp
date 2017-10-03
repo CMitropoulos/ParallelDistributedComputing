@@ -20,20 +20,10 @@ int main() {
   __m256 resultVec = _mm256_loadu_ps(result);
   
   
-  /* Step 3: Negate the imaginary elements of vec2 */
- // vec2 = _mm256_mul_pd(vec2, neg);  
-  
-  /* Step 4: Multiply vec1 and the modified vec2 */
- // __m256d vec4 = _mm256_mul_pd(vec1, vec2);
-
-  /* Horizontally subtract the elements in vec3 and vec4 */
- // vec1 = _mm256_hsub_pd(vec3, vec4);
-  
-  /* Display the elements of the result vector */ 
 
 reset_and_start_timer();
  //calculate the square root
- resultVec  = _mm256_sqrt_ps(_mm256_sqrt_ps(_mm256_sqrt_ps(valuesVec)));
+ resultVec  =_mm256_sqrt_ps(valuesVec);
 
 double dt = get_elapsed_mcycles();
 
