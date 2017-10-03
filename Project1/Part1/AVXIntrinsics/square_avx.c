@@ -1,30 +1,45 @@
 #include <immintrin.h>
 #include <stdio.h>
 
+double randomNum(int upper){
+	return (double)rand() / RAND_MAX * upper;
+}
+
 int main() {
+	const unsigned int totalNum = 20 * 1e6;
+	const float firstGuess = 2.0f;
+  	float* values = (float*)malloc(totalNum*sizeof(float));
+	float* result = (float*)malloc(totalNum*sizeof(float));
 
-  __m256d vec1 = _mm256_setr_pd(4.0, 5.0, 13.0, 6.0);
-  __m256d vec2 = _mm256_setr_pd(9.0, 3.0, 6.0, 7.0);
-  __m256d neg = _mm256_setr_pd(1.0, -1.0, 1.0, -1.0);
+	for(int i = 0; i < totalNum; i++){
+		values[i] = randomNum(8);
+		result[i] = 0.0;
+	}
+
+  __m256 valuesVec = _mm256_loadu_ps(values);
+  __m256 resultVec = _mm256_loadu_ps(result);
   
-  /* Step 1: Multiply vec1 and vec2 */
-  __m256d vec3 = _mm256_mul_pd(vec1, vec2);
-
-  /* Step 2: Switch the real and imaginary elements of vec2 */
-  vec2 = _mm256_permute_pd(vec2, 0x5);
   
   /* Step 3: Negate the imaginary elements of vec2 */
-  vec2 = _mm256_mul_pd(vec2, neg);  
+ // vec2 = _mm256_mul_pd(vec2, neg);  
   
   /* Step 4: Multiply vec1 and the modified vec2 */
-  __m256d vec4 = _mm256_mul_pd(vec1, vec2);
+ // __m256d vec4 = _mm256_mul_pd(vec1, vec2);
 
   /* Horizontally subtract the elements in vec3 and vec4 */
-  vec1 = _mm256_hsub_pd(vec3, vec4);
+ // vec1 = _mm256_hsub_pd(vec3, vec4);
   
-  /* Display the elements of the result vector */
-  double* res = (double*)&vec1;
-  printf("%lf %lf %lf %lf\n", res[0], res[1], res[2], res[3]);
-  
+  /* Display the elements of the result vector */ 
+
+ //calculate the square root
+ resultVec  = _mm256_sqrt_ps(_mm256_sqrt_ps(_mm256_sqrt_ps(valuesVec)));
+  float* val = (float*)&valuesVec;
+  printf("%f %f %f %f\n", val[0], val[1], val[2], val[3]);
+	
+  float* res = (float*)&resultVec;
+  printf("%f %f %f %f\n", res[0], res[1], res[2], res[3]);
+ 
+   
+ 
   return 0;
 }
