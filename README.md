@@ -4,7 +4,6 @@
 <ol>
 <li>Project 1 - ispc  </li>
   <ul>
-
-	<li>  Find square root using foreach and launch tasks</li>
+  	<li>  Find square root using foreach and launch tasks</li>
   </ul>
 </ol>
