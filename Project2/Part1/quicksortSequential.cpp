@@ -3,18 +3,27 @@
 	Programming Project 2. 
 */
 
+
 #include <iostream>
 #include <stdio.h>
 #include <cmath>
 #include <stdlib.h>
 #include <time.h>
-
+#include <pthread.h>
+#include <random>
 using namespace std;
 
-double randomNum(int upper){
-	return (double)rand() / RAND_MAX * upper;
+double* fillArray(double* array, int nbElements){
+  //generate random numbers to fill the array
+  int upper =100; //max number allowed
+  random_device rd; // obtain a random number from hardware
+  mt19937 eng(rd()); // seed the generator
+  uniform_real_distribution<> distr(0,100); 
+  for (int i=0; i< nbElements;i++){
+    array[i] = distr(eng);
+  }
+  return array;
 }
-
 
 void quickSort(double arr[], int left, int right) {
       int i = left, j = right;
@@ -50,10 +59,7 @@ int main(int argc, char *argv[]){
 	const int nbElements  = atoi(argv[1]); 
 	double* array = new double[nbElements];
 
-	//generate random numbers to fill the array
-	for (int i=0; i< nbElements;i++){
-		array[i] = randomNum(100);
-	}
+	array = fillArray(array, nbElements);
 
     clock_t start, end;
     start=clock();
