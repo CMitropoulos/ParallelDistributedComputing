@@ -1,21 +1,35 @@
+/*
+* Create files with random integers.
+* The number of integers in each file is a power of 2.
+*/
+
+#include <stdio.h>      /* printf, scanf, puts, NULL */
+#include <stdlib.h>     /* srand, rand */
+#include <time.h>       /* time */
 #include <iostream>
 #include <random>
 #include <fstream> 
+#include <cmath>
 
 using namespace std;
 
 int main()
 {
-    random_device rd; // obtain a random number from hardware
-    mt19937 eng(rd()); // seed the generator
-    uniform_real_distribution<> distr(0,8); // define the range
-   
-    ofstream writeStream; 
-    writeStream.open("randomNumbers.txt");	
-    for(int i=0; i<20000000; ++i)
-        writeStream << distr(eng) << '\n'; // generate numbers and write to file
+  
+	ofstream writeStream; 
 
-    writeStream.close();
+	for(int i=2; i<30; i+=2){
+		string file = to_string(i) ;
+		writeStream.open(file+".txt");	
+		for(int j=0;j<pow(2,i);j++){
+			writeStream << rand() % 1000 + 1 << '\n';
+		}
+		writeStream.close();
+	}
+    
+   
+
+    
 
    return 0;
 }

@@ -40,7 +40,7 @@ struct thread_data
 struct thread_data thread_data_array[NUM_THREADS];
 pthread_t threads[NUM_THREADS];
 
-void quickSortSequentialRight(double arr[], int left, int right) {
+void quickSortSequential(double arr[], int left, int right) {
   int i = left, j = right;
   double tmp;
   double pivot = arr[(left + right) / 2];
@@ -62,27 +62,28 @@ void quickSortSequentialRight(double arr[], int left, int right) {
 
   /* recursion */
   if (left < j)
-    quickSortSequentialRight(arr, left, j);
+    quickSortSequential(arr, left, j);
   if (i < right)
-    quickSortSequentialRight(arr, i, right);
+    quickSortSequential(arr, i, right);
 }
 
-void* quickSortSequentialWrapperRight(void *threadarg) {
+void* quickSortSequentialWrapper(void *threadarg) {
 
   struct thread_data *my_data;
   my_data = (struct thread_data *) threadarg;
 
   int i = my_data->left, j = my_data->right;
   double * array = my_data->array;
-  quickSortSequentialRight(array, my_data->left, my_data->right);
-}
+  quickSortSequential(array, my_data->left, my_data->right);
 
+}
+/*
 void quickSortSequentialLeft(double arr[], int left, int right) {
   int i = left, j = right;
   double tmp;
   double pivot = arr[(left + right) / 2];
 
-  /* partition */
+  //partition
   while (i <= j) {
     while (arr[i] < pivot)
       i++;
@@ -97,7 +98,7 @@ void quickSortSequentialLeft(double arr[], int left, int right) {
     }
   };
 
-  /* recursion */
+  // recursion
   if (left < j)
     quickSortSequentialLeft(arr, left, j);
   if (i < right)
@@ -113,7 +114,7 @@ void* quickSortSequentialWrapperLeft(void *threadarg) {
   double * array = my_data->array;
   quickSortSequentialLeft(array, my_data->left, my_data->right);
 }
-
+*/
 
 
 
@@ -123,7 +124,7 @@ void* quickSort(void *threadarg) { //(double arr[], int left, int right) {
   void* status;
   struct thread_data *my_data;
 
-  pthread_mutex_lock (&mutexsum);
+
   my_data = (struct thread_data *) threadarg;
 
   int i = my_data->left, j = my_data->right;
@@ -146,12 +147,12 @@ void* quickSort(void *threadarg) { //(double arr[], int left, int right) {
       j--;
     }
   }
-  pthread_mutex_unlock (&mutexsum);
 
 
-  for (int j = 0; j < NUM_THREADS; ++j) {
-    r = pthread_join(threads[j], &status);
-  }
+
+  //for (int j = 0; j < NUM_THREADS; ++j) {
+   // r = pthread_join(threads[j], &status);
+  //}
 
 
   if (my_data->left < j) {
@@ -160,7 +161,7 @@ void* quickSort(void *threadarg) { //(double arr[], int left, int right) {
     thread_data_array[1].left = my_data->left;
     thread_data_array[1].right = j;
 
-    int rc = pthread_create(&threads[1], NULL, quickSortSequentialWrapperLeft, (void *)&thread_data_array[1]);
+    int rc = pthread_create(&threads[1], NULL, quickSortSequentialWrapper, (void *)&thread_data_array[1]);
     if (rc) {
       printf("ERROR; return code from pthread_create() is %d\n", rc);
       exit(-1);
@@ -173,15 +174,11 @@ void* quickSort(void *threadarg) { //(double arr[], int left, int right) {
       thread_data_array[2].left = i;
       thread_data_array[2].right = my_data->right;
 
-      int rc = pthread_create(&threads[2], NULL, quickSortSequentialWrapperRight, (void *)&thread_data_array[2]);
+      int rc = pthread_create(&threads[2], NULL, quickSortSequentialWrapper, (void *)&thread_data_array[2]);
       if (rc) {
         printf("ERROR; return code from pthread_create() is %d\n", rc);
         exit(-1);
       }
-    }
-
-    for (int j = 0; j < NUM_THREADS; ++j) {
-      r = pthread_join(threads[j], &status);
     }
 
 
@@ -193,7 +190,7 @@ void* quickSort(void *threadarg) { //(double arr[], int left, int right) {
 
 int main(int argc, char *argv[]) {
 
-  //first cl argument specifies tj nb of elements
+  //first cl argument specifies the nb of elements
   const int nbElements  = atoi(argv[1]);
   double* array = new double[nbElements];
   void* status;
@@ -237,18 +234,18 @@ int main(int argc, char *argv[]) {
     r = pthread_join(threads[j], &status);
   }
 
-  //cout << "array after sorting is\n" ;
-  //for (int i = 0; i < nbElements; i++) {
-  // cout << array[i] << endl ;
-  //}
-
+/* cout << "array after sorting is\n" ;
+  for (int i = 0; i < nbElements; i++) {
+    cout << array[i] << endl ;
+  }
+*/
 
   end = clock();
 
   float seconds = ((float)end - (float)start) / CLOCKS_PER_SEC;
   cout << "Pthreaded Quicksort time = " << seconds << " seconds" << endl;
 
-  pthread_mutex_destroy(&mutexsum);
+  free(array);
   pthread_exit(NULL);
   return 0;
 
