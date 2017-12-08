@@ -155,7 +155,7 @@ void check_results( int n, unsigned int *results_d )
 }
 
 //Read File to Vector
-std::vector<int> readFiletoVector(const std::string& filename) {
+std::vector<int> readFiletoVector(const std::string &filename) {
   std::ifstream source;
   source.open(filename.c_str());
   std::vector<int> array;
@@ -173,8 +173,8 @@ std::vector<int> readFiletoVector(const std::string& filename) {
 int main(int argc, char **argv)
 {
   int num_items = 128;
-  std::string numbersFilename;
-
+  char *numbersFilename;
+  std::vector<int> v ;
   bool verbose = false;
 
   if (checkCmdLineFlag( argc, (const char **)argv, "help" ) ||
@@ -202,9 +202,11 @@ int main(int argc, char **argv)
 //CHECK FOR FILE ARGUMENT
   if (checkCmdLineFlag( argc, (const char **)argv, "file"))
   {
-    numbersFilename = getCmdLineArgumentInt( argc, (const char **)argv, "file");
-    std::vector<int> v = readFiletoVector(numbersFilename);
-    num_items = v.size();
+    if(getCmdLineArgumentString( argc, (const char **)argv, "file",&numbersFilename))
+	{   std::cout<< numbersFilename << std::endl;
+	    v =readFiletoVector(numbersFilename);
+	    num_items = v.size();
+	}
 
 
   }
