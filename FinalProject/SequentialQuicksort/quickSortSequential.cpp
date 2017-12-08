@@ -39,7 +39,7 @@ void displayVector(const std::vector<int> v)
 
 void writeVectortoFile(const std::vector<int> v, std::string filename) {
 	std::ofstream out(filename);
-	std::cout << "Start writing solutions \n" ;
+	std::cout << "Start writing the solutions \n" ;
 	for (int i(0); i < v.size(); ++i) {
 		out << std::to_string(v[i]) << "\n";
 	}
