@@ -261,8 +261,8 @@ int main(int argc, char **argv)
   run_qsort(d_data, num_items);
 
   // Check result
-  std::cout << "Validating results: ";
-  check_results(num_items, d_data);
+  //std::cout << "Validating results: ";
+  //check_results(num_items, d_data);
 
   free(h_data);
   checkCudaErrors( cudaFree(d_data));
